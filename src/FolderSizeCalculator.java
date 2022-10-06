@@ -5,16 +5,19 @@ import java.util.concurrent.RecursiveTask;
 
 public class FolderSizeCalculator extends RecursiveTask<Long>
 {
-    private File folder;
+    private Node node;
 
-    public FolderSizeCalculator(File folder) {
-        this.folder = folder;
+    public FolderSizeCalculator(Node node) {
+        this.node = node;
     }
 
     @Override
     protected Long compute()
     {
-        if(folder.isFile()){
+        File folder = node.getFolder();
+        if(node.getFolder().isFile()){
+            long length = folder.length();
+            node.setSize(length);
             return folder.length();
         }
         long sum = 0;
@@ -22,14 +25,17 @@ public class FolderSizeCalculator extends RecursiveTask<Long>
 
         File[] files = folder.listFiles();
         for (File file : files) {
-            FolderSizeCalculator task = new FolderSizeCalculator(file);
+            Node child = new Node(file, node.getSizeLimit());
+            FolderSizeCalculator task = new FolderSizeCalculator(child);
             task.fork();
             subTasks.add(task);
+            node.addChild(child);
         }
 
         for (FolderSizeCalculator task : subTasks) {
             sum += task.join();
         }
+        node.setSize(sum);
         return sum;
     }
 }
