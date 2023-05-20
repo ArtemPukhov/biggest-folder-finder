@@ -57,7 +57,7 @@
   <h2>Customization</h2>
   <p>If you want to customize the program, you can modify the following parameters:</p>
   <ul>
-    <li><code>-l &lt;sizeLimit&gt;</code>: Set the maximum size limit for each node (in bytes).</li>
+    <li><code>-l &lt;sizeLimit&gt;</code>: Set the maximum size limit for each node (with Multipliers {'B', 'K', 'M', 'G', 'T'}).</li>
     <li><code>-d &lt;folderPath&gt;</code>: Set the path to the folder you want to calculate the size for.</li>
   </ul>
   <p>Note: The program assumes that the specified folder exists and is accessible. Ensure that you have the necessary permissions to access the folder and its contents.</p>
